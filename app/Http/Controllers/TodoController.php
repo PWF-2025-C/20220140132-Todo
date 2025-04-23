@@ -5,18 +5,36 @@ namespace App\Http\Controllers;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class TodoController extends Controller
 {
-    public function view(){
-        $todos = Todo::where('user_id', Auth::id())->get();
-        dd($todos);
-        return view("todo.index");
+    public function index()
+    {
+        $todos = Todo::where('user_id', Auth::id())->orderBy('is_done', 'desc')->get();
+ 
+         return view('todo.index', compact('todos'));
     }
-    public function create(){
-        return view("todo.create");
+
+    public function create()
+    {
+        return view('todo.create');
     }
-    public function edit(){
-        return view("todo.edit");
+
+
+    public function edit()
+    {
+        return view('todo.edit');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        $todo = Todo::create([
+            'title' => ucfirst($request->title),
+            'user_id' => Auth::id(),
+        ]);
+        return redirect()->route('todo.index')->with('success', 'Todo Created Successfully');
     }
 }
