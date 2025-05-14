@@ -21,10 +21,11 @@
             {{-- Table --}}
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="relative overflow-x-auto">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">Title</th>
+                                <th scope="col" class="px-6 py-3">Category</th>
                                 <th scope="col" class="px-6 py-3 text-center">Status</th>
                                 <th scope="col" class="px-6 py-3 text-center">Action</th>
                             </tr>
@@ -32,10 +33,13 @@
                         <tbody>
                             @forelse ($todos as $data)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white group">
+                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <a href="{{ route('todo.edit', $data) }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
                                             {{ $data->title }}
                                         </a>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $data->category?->title ?? '-' }}
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if (!$data->is_done)
@@ -80,7 +84,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                    <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
                                         No todos found
                                     </td>
                                 </tr>
