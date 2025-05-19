@@ -10,7 +10,7 @@ class TodoController extends Controller
 {
     public function index()
     {
-        $todos = Todo::where('user_id', Auth::id())->orderBy('is_done', 'desc')->get();
+        $todos = Todo::with('category')->where('user_id', Auth::id())->orderBy('is_done', 'desc')->get();
 
         $todosCompleted = Todo::where('user_id',auth()->user()->id)
         ->where('is_done',true)
@@ -24,7 +24,7 @@ class TodoController extends Controller
     if (auth()->user()->is_admin) {
         $categories = Category::all(); // admin bisa lihat semua
     } else {
-        $categories = Category::where('user_id', auth()->id())->get(); // user biasa hanya lihat miliknya
+        $categories = Category::where('user_id', Auth::id())->get(); // user biasa hanya lihat miliknya
     }
 
     return view('todo.create', compact('categories'));
